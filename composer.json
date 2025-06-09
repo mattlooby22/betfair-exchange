@@ -1,9 +1,9 @@
 {
-  "name": "matthewlooby/betfair-exchange",
+  "name": "mattlooby22/betfair-exchange",
   "type": "library",
   "description": "Betfair Exchange API wrapper",
   "keywords": ["Betfair", "Betfair Exchange", "API"],
-  "homepage": "https://github.com/matthewlooby/betfair-exchange",
+  "homepage": "https://github.com/mattlooby22/betfair-exchange",
   "license": "MIT",
   "authors": [
     {
@@ -13,7 +13,7 @@
     }
   ],
   "support": {
-      "issues": "https://github.com/matthewlooby/betfair-exchange/issues"
+      "issues": "https://github.com/mattlooby22/betfair-exchange/issues"
   },
   "require": {
     "php": ">=7.3",
