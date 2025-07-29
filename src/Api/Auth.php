@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PeterColes\Betfair\Api;
 
 use Exception;
@@ -9,18 +11,18 @@ class Auth extends BaseApi
     /**
      * Betfair API endpoint for authentication requests
      */
-    const ENDPOINT = 'https://identitysso.betfair.com/api/';
+    public const ENDPOINT = 'https://identitysso.betfair.com/api/';
 
     /**
      * 12 hours for the international exchange, expressed in seconds
      * (Note that some exchanges e.g. Italian are shorter)
      */
-    const SESSION_LENGTH = 12 * 60 * 60;
+    public const SESSION_LENGTH = 12 * 60 * 60;
 
     /**
      * API fail status
      */
-    const API_STATUS_FAIL = 'FAIL';
+    public const API_STATUS_FAIL = 'FAIL';
 
     /**
      * Application key, provided by Betfair on registration
@@ -43,13 +45,13 @@ class Auth extends BaseApi
      * for a long running process and will only trigger the authentication overhead
      * when really needed.
      *
-     * @param  string $appKey
-     * @param  string $username
-     * @param  string $password
+     * @param  string  $appKey
+     * @param  string  $username
+     * @param  string  $password
      */
     public function init($appKey, $username, $password)
     {
-        if ($appKey == self::$appKey && $this->sessionRemaining() > 5) {
+        if ($appKey === self::$appKey && $this->sessionRemaining() > 5) {
             $this->keepAlive();
         } else {
             $this->login($appKey, $username, $password);
@@ -59,8 +61,8 @@ class Auth extends BaseApi
     /**
      * Accept app key and session token and extend session.
      *
-     * @param  string $appKey
-     * @param  string $sessionToken
+     * @param  string  $appKey
+     * @param  string  $sessionToken
      * @return string
      */
     public function persist($appKey, $sessionToken)
@@ -79,10 +81,11 @@ class Auth extends BaseApi
      * Method to directly execute Betfair login request.
      * For use only when the init() method isn't appropriate.
      *
-     * @param  string $appKey
-     * @param  string $username
-     * @param  string $password
+     * @param  string  $appKey
+     * @param  string  $username
+     * @param  string  $password
      * @return string
+     *
      * @throws Exception
      */
     public function login($appKey, $username, $password)
@@ -92,7 +95,7 @@ class Auth extends BaseApi
         $request = $this->httpClient
             ->setMethod('post')
             ->setEndPoint(self::ENDPOINT.'login/')
-            ->setFormData([ 'username' => $username, 'password' => $password ]);
+            ->setFormData(['username' => $username, 'password' => $password]);
 
         $result = $this->execute($request);
 
@@ -107,6 +110,7 @@ class Auth extends BaseApi
      * Implicitly uses the already set app key and session token.
      *
      * @return string
+     *
      * @throws Exception
      */
     public function keepAlive()
@@ -136,7 +140,7 @@ class Auth extends BaseApi
     /**
      * Calculate and provide the time remaining until the current session token expires.
      *
-     * @return integer
+     * @return int
      */
     public function sessionRemaining()
     {
@@ -150,8 +154,9 @@ class Auth extends BaseApi
     /**
      * Accept request, add auth headers and dispatch, then respond to any errors.
      *
-     * @param  \PeterColes\Betfair\Http\Client $request
-     * @return Mixed
+     * @param  \PeterColes\Betfair\Http\Client  $request
+     * @return mixed
+     *
      * @throws Exception
      */
     public function execute($request)

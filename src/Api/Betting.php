@@ -1,24 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PeterColes\Betfair\Api;
 
-use PeterColes\Betfair\Api\BaseApi;
+use stdClass;
 
 class Betting extends BaseApi
 {
     /**
      * Betfair API endpoint for betting subsystem requests
      */
-    const ENDPOINT = 'https://api.betfair.com/exchange/betting/rest/v1.0/';
+    public const ENDPOINT = 'https://api.betfair.com/exchange/betting/rest/v1.0/';
 
     /**
      * Prepare parameters for API requests, ensuring the mandatory requirments are satisfied
      *
-     * @param array $params
+     * @param  array  $params
      */
     public function prepare($params)
     {
-        $this->params = !empty($params) ? $params[ 0 ] : [ ];
+        $this->params = ! empty($params) ? $params[0] : [];
 
         // force mandatory fields
         $this->filter();
@@ -37,11 +39,11 @@ class Betting extends BaseApi
             'listEventTypes',
             'listMarketTypes',
             'listVenues',
-            'listMarketCatalogue'
+            'listMarketCatalogue',
         ];
 
-        if (in_array($this->method, $lists) && empty($this->params[ 'filter' ])) {
-            $this->params[ 'filter' ] = new \stdClass;
+        if (in_array($this->method, $lists) && empty($this->params['filter'])) {
+            $this->params['filter'] = new stdClass;
         }
     }
 
@@ -50,8 +52,8 @@ class Betting extends BaseApi
      */
     protected function maxRecords()
     {
-        if ($this->method == 'listMarketCatalogue' && empty($this->params[ 'maxResults' ])) {
-            $this->params[ 'maxResults' ] = 1000;
+        if ($this->method === 'listMarketCatalogue' && empty($this->params['maxResults'])) {
+            $this->params['maxResults'] = 1000;
         }
     }
 }

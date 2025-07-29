@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PeterColes\Tests\Integration\Betting;
 
 use PeterColes\Betfair\Betfair;
@@ -7,7 +9,7 @@ use PeterColes\Tests\Integration\BaseTest;
 
 class MarketsTest extends BaseTest
 {
-    public function testListMarketCatalogueNoFiltering()
+    public function test_list_market_catalogue_no_filtering()
     {
         $result = Betfair::betting('listMarketCatalogue');
 
@@ -15,7 +17,7 @@ class MarketsTest extends BaseTest
         $this->assertObjectHasAttribute('marketName', $result[0]);
     }
 
-    public function testListMarketCatalogueFilterByEventIdOnly()
+    public function test_list_market_catalogue_filter_by_event_id_only()
     {
         // get an event that we can work with
         $events = collect(Betfair::betting('listEvents', ['sortByDesc' => 'marketCount']))->values();
@@ -27,7 +29,7 @@ class MarketsTest extends BaseTest
         }
     }
 
-    public function testListMarketCatalogueWithParams()
+    public function test_list_market_catalogue_with_params()
     {
         // get an event that we can work with
         $events = collect(Betfair::betting('listEvents'))->sortByDesc('marketCount')->values();
@@ -38,7 +40,7 @@ class MarketsTest extends BaseTest
                 'marketProjection' => ['COMPETITION', 'EVENT', 'EVENT_TYPE', 'MARKET_START_TIME', 'MARKET_DESCRIPTION', 'RUNNER_DESCRIPTION', 'RUNNER_METADATA'],
                 'sort' => 'MAXIMUM_TRADED',
                 'maxResults' => 2,
-                'locale' => 'it'
+                'locale' => 'it',
             ]);
 
             $this->assertEquals(2, count($result));
@@ -52,7 +54,7 @@ class MarketsTest extends BaseTest
         }
     }
 
-    public function testListMarketBookWithMarketIdOnly()
+    public function test_list_market_book_with_market_id_only()
     {
         $events = collect(Betfair::betting('listEvents'))->sortByDesc('marketCount')->values();
         $markets = Betfair::betting('listMarketCatalogue', ['filter' => ['eventIds' => [$events[0]->event->id]]]);
@@ -62,7 +64,7 @@ class MarketsTest extends BaseTest
         $this->assertObjectHasAttribute('runners', $result[0]);
     }
 
-    public function testListMarketBookWithParameters()
+    public function test_list_market_book_with_parameters()
     {
         $events = collect(Betfair::betting('listEvents'))->sortByDesc('marketCount')->values();
         $markets = Betfair::betting('listMarketCatalogue', ['filter' => ['eventIds' => [$events[0]->event->id]]]);
@@ -72,13 +74,13 @@ class MarketsTest extends BaseTest
             'orderProjection' => 'ALL',
             'matchProjection' => 'NO_ROLLUP',
             'currencyCode' => 'EUR',
-            'locale' => 'it'
+            'locale' => 'it',
         ]);
 
         $this->assertObjectHasAttribute('ex', $result[0]->runners[0]);
     }
 
-    public function testListMarketProfitAndLossWithMarketIdOnly()
+    public function test_list_market_profit_and_loss_with_market_id_only()
     {
         $events = collect(Betfair::betting('listEvents'))->sortByDesc('marketCount')->values();
         $markets = Betfair::betting('listMarketCatalogue', ['filter' => ['eventIds' => [$events[0]->event->id]]]);
@@ -89,7 +91,7 @@ class MarketsTest extends BaseTest
         $this->assertObjectHasAttribute('profitAndLosses', $result[0]);
     }
 
-    public function testListMarketProfitAndLossWithParameters()
+    public function test_list_market_profit_and_loss_with_parameters()
     {
         $events = collect(Betfair::betting('listEvents'))->sortByDesc('marketCount')->values();
         $markets = Betfair::betting('listMarketCatalogue', ['filter' => ['eventIds' => [$events[0]->event->id]]]);

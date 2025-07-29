@@ -1,13 +1,13 @@
 <?php
 
-namespace PeterColes\Betfair\Api;
+declare(strict_types=1);
 
-use PeterColes\Betfair\Api\BaseApi;
+namespace PeterColes\Betfair\Api;
 
 class Account extends BaseApi
 {
     /**
      * Betfair API endpoint for account subsystem requests
      */
-    const ENDPOINT = 'https://api.betfair.com/exchange/account/rest/v1.0/';
+    public const ENDPOINT = 'https://api.betfair.com/exchange/account/rest/v1.0/';
 }

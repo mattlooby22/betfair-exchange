@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PeterColes\Tests\Integration;
 
 use PeterColes\Betfair\Betfair;

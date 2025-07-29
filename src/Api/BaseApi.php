@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PeterColes\Betfair\Api;
 
 use PeterColes\Betfair\Http\Client as HttpClient;
@@ -24,10 +26,8 @@ abstract class BaseApi
 
     /**
      * Ensure that we have an HTTP client with which to work
-     *
-     * @param HttpClient $httpClient
      */
-    public function __construct(HttpClient $httpClient = null)
+    public function __construct(?HttpClient $httpClient = null)
     {
         $this->httpClient = $httpClient ?: new HttpClient;
     }
@@ -35,7 +35,7 @@ abstract class BaseApi
     /**
      * Invoke the HTTP client to Execute the API request
      *
-     * @param  array $params
+     * @param  array  $params
      * @return mixed
      */
     public function execute($params)
@@ -47,7 +47,7 @@ abstract class BaseApi
             ->setMethod('post')
             ->setEndPoint(static::ENDPOINT.$this->method.'/')
             ->authHeaders()
-            ->addHeader([ 'Content-Type' => 'application/json' ])
+            ->addHeader(['Content-Type' => 'application/json'])
             ->setParams($this->params)
             ->send();
     }
@@ -56,11 +56,11 @@ abstract class BaseApi
      * Prepare parameters for ingestion by API requests.
      * Minimum activity is to remove a layer of array.
      *
-     * @param  array $params
+     * @param  array  $params
      * @return array|null
      */
     protected function prepare($params)
     {
-        $this->params = !empty($params) ? $params[ 0 ] : null;
+        $this->params = ! empty($params) ? $params[0] : null;
     }
 }
